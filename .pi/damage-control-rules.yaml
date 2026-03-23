@@ -1,0 +1,52 @@
+bashToolPatterns:
+  # ── Destructive commands ──
+  - pattern: '\brm\s+(-[^\s]*)*-[rRf]'
+    reason: rm with recursive or force flags
+  - pattern: '\brm\s+'
+    reason: rm command (all rm is denied in this project)
+  - pattern: '\bsudo\b'
+    reason: sudo is denied
+
+  # ── Git safety ──
+  - pattern: '\bgit\s+push\b'
+    reason: git push requires confirmation
+    ask: true
+  - pattern: '\bgit\s+commit\b'
+    reason: git commit requires confirmation
+    ask: true
+  - pattern: '\bgit\s+reset\s+--hard\b'
+    reason: git reset --hard
+  - pattern: '\bgit\s+clean\s+(-[^\s]*)*-[fd]'
+    reason: git clean with force/directory flags
+  - pattern: '\bgit\s+push\s+.*--force(?!-with-lease)'
+    reason: git push --force
+
+  # ── MLflow/artifact safety ──
+  - pattern: '\bmlflow\s+gc\b'
+    reason: mlflow gc deletes runs
+    ask: true
+
+zeroAccessPaths:
+  - ".env"
+  - ".env.local"
+  - ".env.development"
+  - ".env.production"
+  - "*.env"
+  - "~/.ssh/"
+  - "~/.aws/"
+
+readOnlyPaths:
+  - mlruns/
+  - models/
+  - data/
+  - logs/
+  - "package-lock.json"
+  - "yarn.lock"
+  - "uv.lock"
+
+noDeletePaths:
+  - .git/
+  - .gitignore
+  - README.md
+  - CLAUDE.md
+  - experiments/configs/mnist_sweep.yaml

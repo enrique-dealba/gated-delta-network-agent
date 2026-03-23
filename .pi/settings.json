@@ -1,0 +1,4 @@
+{
+  "prompts": [".pi/prompts"],
+  "extensions": ["extensions/footer.ts", "extensions/experiment-enforcer.ts"]
+}
